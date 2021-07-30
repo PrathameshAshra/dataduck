@@ -1,0 +1,23 @@
+.ProductPage__Wrapper{
+    display: flex;
+    height: 100%;
+}
+
+
+.body__wrapper{
+    padding: 0px 16px;
+    width: 100%;
+}
+.product__wrapper{
+    display: flex;
+}
+.productImage__container{
+    width: 300px;
+}
+.productImage__large{
+    width: 100%;
+}
+.productInfo__container{
+    width: calc(100% - 300px);
+    padding-left: 24px;
+}

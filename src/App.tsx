@@ -1,24 +1,45 @@
 import React from 'react';
-import logo from './logo.svg';
+import {  Route, Switch } from 'react-router-dom';
 import './App.css';
+import Header from './components/header/Header';
+import Checkout from './pages/checkout/Checkout';
+import ProductDetails from './pages/productDeatil/ProductDetail';
+import ProductList from './pages/products/ProductList';
+import { CartFactory } from './__types__/Cart.model';
+// ! Layout
 
+const  verifyCartItems = () =>{
+  // * checks time if more than 24 hours deletes the item
+ const cart: CartFactory =  JSON.parse(localStorage.getItem('cart') || '{}')
+ Object.keys(cart).map((product)=>{
+   if(Date.now() - cart[product].updatedAt < 86400000 ){
+    
+   }else{
+    delete cart[product]
+    localStorage.setItem('cart',JSON.stringify(cart))
+   }
+ })
+ console.log(cart)
+}
 function App() {
+  verifyCartItems();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        {/* Header */}
+    <Header/>
+     {/* Router Based navigation's */}
+     <div className="content__wrapper">
+      
+       <Switch>
+     <Route exact path="/" component={ProductList} />
+     <Route exact path="/product-details/:id" component={ProductDetails} />
+     <Route exact path="/cart" component={Checkout} />
+      </Switch>
+     
+ 
+
+     </div>
+ 
     </div>
   );
 }

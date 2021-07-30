@@ -1,0 +1,16 @@
+.header__container{
+   background-color: #131921;
+   color: white;
+   height: 60px;
+   display: flex;
+   padding: 0px 16px;
+   align-items: center;
+}
+.brand__container{
+    margin-right: 32px;
+    
+}
+.brand{
+    color: white;
+    text-decoration: none;
+}

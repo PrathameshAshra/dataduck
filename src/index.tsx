@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+// Fonts
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+/>
+// icons
 
+// 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+   <BrowserRouter>
+   <App />
+   </BrowserRouter>
+
   </React.StrictMode>,
   document.getElementById('root')
 );
