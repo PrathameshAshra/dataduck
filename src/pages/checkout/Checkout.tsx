@@ -12,7 +12,6 @@ function Checkout() {
   useEffect(() => {
     // * Get Cart
     getCurrentCartProducts();
-    calculateFinalPrice(cart);
   }, [finalPrice]);
 
   // * Side Effects
@@ -27,6 +26,7 @@ function Checkout() {
     Object.keys(cart).map((key) => {
       price = price + cart[key].finalPrice;
       console.log(price, "Here");
+      return key
     });
     setFinalPrice(price);
   };

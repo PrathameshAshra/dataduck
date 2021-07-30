@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { ProductService } from "../../api/product.service";
 import { CartFactory } from "../../__types__/Cart.model";

@@ -11,13 +11,14 @@ import { CartFactory } from './__types__/Cart.model';
 const  verifyCartItems = () =>{
   // * checks time if more than 24 hours deletes the item
  const cart: CartFactory =  JSON.parse(localStorage.getItem('cart') || '{}')
- Object.keys(cart).map((product)=>{
+Object.keys(cart).map((product)=>{
    if(Date.now() - cart[product].updatedAt < 86400000 ){
     
    }else{
     delete cart[product]
     localStorage.setItem('cart',JSON.stringify(cart))
    }
+   return product
  })
  console.log(cart)
 }
