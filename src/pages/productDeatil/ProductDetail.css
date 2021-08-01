@@ -21,3 +21,11 @@
     width: calc(100% - 300px);
     padding-left: 24px;
 }
+.AddtoCart{
+    background-color: indianred;
+    font-size: 24px;
+}
+.AddtoCart a{
+text-decoration: none;
+color: white;
+}

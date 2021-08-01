@@ -18,7 +18,7 @@ function Header() {
       </div> */}
 
       {/* Cart Button */}
-      <div className="card__container">
+      <div className="cart__container">
      
 
         <span> <Link to={"/cart"}>Cart </Link> </span>

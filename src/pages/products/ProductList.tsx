@@ -17,57 +17,72 @@ function ProductList() {
   const [productList, setProductList] = useState<
     ProductFactory[] | undefined | null
   >(null);
-  const [categoryList, setcategoryList] = useState<string[] | undefined | null>(
+  const [categoryList, setCategoryList] = useState<string[] | undefined | null>(
     null
   );
 
-  
   // Defining Side Effects first time
   useEffect(() => {
     // *Product Hot List
     getHotProducts();
     getAllCategory();
-   
   }, []);
 
- // * List Of Hot Products
-  const getHotProducts = () =>{
-    _productService.getAllProduct()
-    .then((res) => {
-      setProductList(res.data);
-    })
-    .catch((error) => {
-    });
-  }
-   // * List Of Cateogries
-  const getAllCategory = () =>{
-    _productService.getAllCategory()
-    .then((res) => {
-      setcategoryList(res.data);
-    })
-    .catch((error) => {
-    });
-  }
+  // * List Of Hot Products
+  const getHotProducts = () => {
+    _productService
+      .getAllProduct()
+      .then((res) => {
+        setProductList(res.data);
+      })
+      .catch((error) => {});
+  };
+  // * List Of Categories
+  const getAllCategory = () => {
+    _productService
+      .getAllCategory()
+      .then((res) => {
+        setCategoryList(res.data);
+      })
+      .catch((error) => {});
+  };
   // * List Of Products by CategoryId
-  const getProductsByCategoryName  = (categoryName: string) =>{
-    _productService.getProductsByCategoryName(categoryName).then((res)=>{
-      setProductList(res.data)
-    })
-  }
+  const getProductsByCategoryName = (categoryName: string) => {
+    _productService.getProductsByCategoryName(categoryName).then((res) => {
+      setProductList(res.data);
+    });
+  };
   return (
     <div className="ProductPage__Wrapper">
       {/* Sidebar */}
       <div className="Sidebar__container">
         <h1>Category</h1>
-        <span onClick={getHotProducts} className='category__label'>Hot Products</span>
-        {categoryList?.map((category) => (
-          <span key={category} onClick={()=>(getProductsByCategoryName(category))} className='category__label'>{category}</span>
-        ))}
+        <span onClick={getHotProducts} className="category__label">
+          Hot Products
+        </span>
+        {/* ! If Category List is Mapped */}
+        {categoryList &&
+          categoryList?.map((category) => (
+            <span
+              key={category}
+              onClick={() => getProductsByCategoryName(category)}
+              className="category__label"
+            >
+              {category}
+            </span>
+          ))}
+        {!categoryList && (
+          // If it is not loaded
+          <span>Loading Category List</span>
+        )}
       </div>
+     
+     
       <div className="body__wrapper">
-        <h1 className='breadcrumbs'>Hot Products</h1>
+        <h1 className="breadcrumbs">Hot Products</h1>
         <div className="products__wrapper">
-          {productList?.map((product) => (
+          {/* If Product List is Mapped */}
+          { productList && productList?.map((product) => (
             <ProductItem
               key={product.id}
               id={product.id}
@@ -78,6 +93,10 @@ function ProductList() {
               price={product.price}
             />
           ))}
+          {
+            // if Product List is Unmapped
+            !productList && <span>Products are loading</span> 
+}
         </div>
       </div>
     </div>

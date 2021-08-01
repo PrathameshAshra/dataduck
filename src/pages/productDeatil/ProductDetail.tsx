@@ -20,8 +20,8 @@ function ProductDetails() {
     {} as ProductFactory
   );
   const [cart, setCartInfo] = useState<LooseObject>({});
-  const { id }: any = useParams();
-
+  const params: any = useParams();
+  const id = params.id;
   // Defining Side Effects first time
   useEffect(() => {
     // *Product Hot List
@@ -62,30 +62,30 @@ function ProductDetails() {
 
   return (
     <div className="ProductPage__Wrapper">
-      {/* Sidebar */}
+      {productInfo && (
+        <div className="body__wrapper">
+          <h1 className="breadcrumbs">Products Details</h1>
+          <div className="product__wrapper">
+            <div className="productImage__container">
+              <img
+                className="productImage__large"
+                src={productInfo?.image}
+                alt={productInfo?.title}
+              />
+            </div>
+            <div className="productInfo__container">
+              <h1>{productInfo?.title}</h1>
+              <h2>{productInfo?.description}</h2>
+              <h4>{productInfo?.category}</h4>
+              <h5> $ {productInfo?.price}</h5>
 
-      <div className="body__wrapper">
-        <h1 className="breadcrumbs">Products Details</h1>
-        <div className="product__wrapper">
-          <div className="productImage__container">
-            <img
-              className="productImage__large"
-              src={productInfo?.image}
-              alt={productInfo?.title}
-            />
-          </div>
-          <div className="productInfo__container">
-            <h1>{productInfo?.title}</h1>
-            <h2>{productInfo?.description}</h2>
-            <h4>{productInfo?.category}</h4>
-            <h5> $ {productInfo?.price}</h5>
-
-            <button onClick={() => addProductToCart()}>
-              <Link to={"/"}>Add To Cart </Link>
-            </button>
+              <button className='AddtoCart' onClick={() => addProductToCart()}>
+                <Link to={"/"}>Add To Cart </Link>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

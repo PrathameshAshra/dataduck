@@ -7,6 +7,7 @@ function Checkout() {
   // * States
   const [cart, setCart] = useState<CartFactory>({} as CartFactory);
   const [finalPrice, setFinalPrice] = useState<number>(0);
+  const [modeOfPayment, setModeOfPayment] = useState<string>("Cash On Delivery");
 
   // * Side Effects
   useEffect(() => {
@@ -26,7 +27,7 @@ function Checkout() {
     Object.keys(cart).map((key) => {
       price = price + cart[key].finalPrice;
       console.log(price, "Here");
-      return key
+      return key;
     });
     setFinalPrice(price);
   };
@@ -60,9 +61,28 @@ function Checkout() {
       getCurrentCartProducts();
     }
   };
+const ClearCart = () =>{
+  alert("Flow Completed")
+  localStorage.clear();
+  setCart({} as  CartFactory)
+}
+  const handleChange = (event: any, tag: string) => {
+    switch (tag) {
+      case "modeOfPayment":
+        console.log(event.target.value)
+        setModeOfPayment(event.target.value);
+        break;
+      case "clearCart":
+        ClearCart()
+      break;
 
+      default:
+        break;
+    }
+  };
   return (
     <div>
+      {Object.keys(cart).length != 0 &&
       <div className="checkout__wrapper">
         <div className="table-wrappper">
           <h1>Checkout Page</h1>
@@ -84,18 +104,26 @@ function Checkout() {
                   />
                 </div>
                 <div className="product__image__container table__content__cell">
-                 <p> {cart[key].tittle}</p>
+                  <p> {cart[key].tittle}</p>
                 </div>
                 <div className="quantity__container table__content__cell">
-                  <button onClick={() => incrementQuantity(cart[key].id)}>
+                  <button
+                    className="Add"
+                    onClick={() => incrementQuantity(cart[key].id)}
+                  >
                     +
                   </button>
                   <p>{cart[key].quantity}</p>
-                  <button onClick={() => decreaseQuantity(cart[key].id)}>
+                  <button
+                    className="Remove"
+                    onClick={() => decreaseQuantity(cart[key].id)}
+                  >
                     -
                   </button>
                 </div>
-                <div className="table__content__cell"><p>{cart[key].finalPrice}</p></div>
+                <div className="table__content__cell">
+                  <p>{cart[key].finalPrice}</p>
+                </div>
               </div>
             ))}
         </div>
@@ -103,12 +131,26 @@ function Checkout() {
         <div className="table__price">
           <h1>Summary </h1>
           Total Cost - $ {finalPrice}
-          <button>Pay Now</button>
+          <select
+            value={modeOfPayment}
+            onChange={(ev) => handleChange(ev, "modeOfPayment")}
+          >
+            <option value="Cash On Delivery">Cash On Delivery</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Debit Card">Debit Card</option>
+            <option value="Net Banking">Net Banking</option>
+          </select>
+          {modeOfPayment === "Cash On Delivery" && (
+            <button onClick={(ev)=> handleChange(ev,'clearCart')} className="payNow">Pay Now</button>
+          )}
+          {modeOfPayment != "Cash On Delivery" && (
+            <span>COD is only option available at the moment </span>
+          )}
         </div>
       </div>
-
+    }
       {/* No Items in Cart */}
-      {Object.keys(cart).length === 0 && <h1>Add Masala</h1>}
+      {Object.keys(cart).length === 0 && <h1>Add Products to view</h1>}
     </div>
   );
 }
