@@ -3,7 +3,7 @@ import {  Route, Switch } from 'react-router-dom';
 import './App.css';
 import Header from './components/header/Header';
 import Checkout from './pages/checkout/Checkout';
-import ProductDetails from './pages/productDeatil/ProductDetail';
+import ProductDetails from './pages/productDetails/ProductDetail';
 import ProductList from './pages/products/ProductList';
 import { CartFactory } from './__types__/Cart.model';
 // ! Layout
@@ -20,7 +20,6 @@ Object.keys(cart).map((product)=>{
    }
    return product
  })
- console.log(cart)
 }
 function App() {
   verifyCartItems();

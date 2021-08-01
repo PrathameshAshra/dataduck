@@ -52,7 +52,6 @@ function ProductDetails() {
       price: productInfo.price,
       finalPrice: productInfo.price,
     };
-    console.log(currentProducts);
     setCart(currentProducts);
     localStorage.setItem("cart", JSON.stringify(cart));
     alert("Product added to cart ! ");

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { CartFactory } from "../../__types__/Cart.model";
 import "./Checkout.css";
 
@@ -68,11 +69,10 @@ const ClearCart = () =>{
   const handleChange = (event: any, tag: string) => {
     switch (tag) {
       case "modeOfPayment":
-        console.log(event.target.value)
         setModeOfPayment(event.target.value);
         break;
       case "clearCart":
-        ClearCart()
+        ClearCart();
       break;
 
       default:
@@ -140,7 +140,7 @@ const ClearCart = () =>{
             <option value="Net Banking">Net Banking</option>
           </select>
           {modeOfPayment === "Cash On Delivery" && (
-            <button onClick={(ev)=> handleChange(ev,'clearCart')} className="payNow">Pay Now</button>
+            <button onClick={(ev)=> handleChange(ev,'clearCart')} className="payNow"> <Link to="/">Buy Now</Link></button>
           )}
           {modeOfPayment !== "Cash On Delivery" && (
             <span>COD is only option available at the moment </span>
