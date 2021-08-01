@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { ProductService } from "../../api/product.service";
-import { CartFactory } from "../../__types__/Cart.model";
 import { ProductFactory } from "../../__types__/Product.model";
 // CSS
 import "./ProductDetail.css";
@@ -19,7 +18,7 @@ function ProductDetails() {
   const [productInfo, setProductInfo] = useState<ProductFactory>(
     {} as ProductFactory
   );
-  const [cart, setCartInfo] = useState<LooseObject>({});
+  const [cart, setCart] = useState<LooseObject>({});
   const params: any = useParams();
   const id = params.id;
   // Defining Side Effects first time
@@ -39,12 +38,11 @@ function ProductDetails() {
       .catch((error) => {});
   };
   const getCurrentCartProducts = () => {
-    setCartInfo(JSON.parse(localStorage.getItem("cart") || "{}"));
-    return cart;
+    setCart(JSON.parse(localStorage.getItem("cart") || "{}"));
   };
 
   const addProductToCart = () => {
-    let currentProducts: CartFactory = getCurrentCartProducts();
+    let currentProducts = cart
     currentProducts[id] = {
       updatedAt: Date.now(),
       quantity: 1,
@@ -55,7 +53,7 @@ function ProductDetails() {
       finalPrice: productInfo.price,
     };
     console.log(currentProducts);
-    setCartInfo(currentProducts);
+    setCart(currentProducts);
     localStorage.setItem("cart", JSON.stringify(cart));
     alert("Product added to cart ! ");
   };

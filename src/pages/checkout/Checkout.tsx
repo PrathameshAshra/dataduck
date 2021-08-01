@@ -8,38 +8,37 @@ function Checkout() {
   const [cart, setCart] = useState<CartFactory>({} as CartFactory);
   const [finalPrice, setFinalPrice] = useState<number>(0);
   const [modeOfPayment, setModeOfPayment] = useState<string>("Cash On Delivery");
-
-  // * Side Effects
+  const getCurrentCartProducts = () => {
+    setCart(JSON.parse(localStorage.getItem("cart") || "{}"));
+  };
+  
   useEffect(() => {
-    // * Get Cart
+    // * Get Products
     getCurrentCartProducts();
   }, [finalPrice]);
 
-  // * Side Effects
-  useEffect(() => {
-    // * Get Cart
-    calculateFinalPrice(cart);
-  }, [cart]);
+// * Side Effects
+useEffect(() => {
+  // * Calculate Price
+  calculateFinalPrice(cart);
+}, [cart ]);
 
+ 
   const calculateFinalPrice = (cart: CartFactory) => {
     let price = 0;
 
     Object.keys(cart).map((key) => {
       price = price + cart[key].finalPrice;
-      console.log(price, "Here");
       return key;
     });
-    setFinalPrice(price);
+    setFinalPrice(Number(price.toFixed(2)));
   };
 
-  const getCurrentCartProducts = () => {
-    setCart(JSON.parse(localStorage.getItem("cart") || "{}"));
-  };
+ 
   const incrementQuantity = (productId: string) => {
     cart[productId].quantity = cart[productId].quantity + 1;
-    cart[productId].finalPrice =
-      cart[productId].quantity * cart[productId].price;
-    cart[productId].finalPrice.toFixed(2);
+    const temp = cart[productId].quantity * cart[productId].price;
+    cart[productId].finalPrice = Number(temp.toFixed(2));
     localStorage.setItem("cart", JSON.stringify(cart));
     getCurrentCartProducts();
   };
@@ -82,7 +81,7 @@ const ClearCart = () =>{
   };
   return (
     <div>
-      {Object.keys(cart).length != 0 &&
+      {Object.keys(cart).length !== 0 &&
       <div className="checkout__wrapper">
         <div className="table-wrappper">
           <h1>Checkout Page</h1>
@@ -143,7 +142,7 @@ const ClearCart = () =>{
           {modeOfPayment === "Cash On Delivery" && (
             <button onClick={(ev)=> handleChange(ev,'clearCart')} className="payNow">Pay Now</button>
           )}
-          {modeOfPayment != "Cash On Delivery" && (
+          {modeOfPayment !== "Cash On Delivery" && (
             <span>COD is only option available at the moment </span>
           )}
         </div>
