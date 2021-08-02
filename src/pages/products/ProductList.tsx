@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ProductService } from "../../api/product.service";
 import ProductItem from "../../components/productItem/productItem";
@@ -14,6 +14,8 @@ const _productService = new ProductService();
 // ! Heart
 function ProductList() {
   // Defining States
+  const [category, setCategory] = useState("Hot Products");
+  const [loading, setLoading] = useState(false);
   const [productList, setProductList] = useState<
     ProductFactory[] | undefined | null
   >(null);
@@ -30,26 +32,34 @@ function ProductList() {
 
   // * List Of Hot Products
   const getHotProducts = () => {
+    setLoading(true);
+    setCategory("Hot Products");
     _productService
       .getAllProduct()
       .then((res) => {
         setProductList(res.data);
+        setLoading(false);
       })
       .catch((error) => {});
   };
   // * List Of Categories
   const getAllCategory = () => {
+    setLoading(true);
     _productService
       .getAllCategory()
       .then((res) => {
         setCategoryList(res.data);
+        setLoading(false);
       })
       .catch((error) => {});
   };
   // * List Of Products by CategoryId
   const getProductsByCategoryName = (categoryName: string) => {
+    setLoading(true);
+    setCategory(categoryName);
     _productService.getProductsByCategoryName(categoryName).then((res) => {
       setProductList(res.data);
+      setLoading(false);
     });
   };
   return (
@@ -57,18 +67,27 @@ function ProductList() {
       {/* Sidebar */}
       <div className="Sidebar__container">
         <h1>Category</h1>
-        <span onClick={getHotProducts} className="category__label">
+        <span
+          onClick={getHotProducts}
+          className={`${
+            category === "Hot Products"
+              ? "category__label active"
+              : "category__label"
+          }`}
+        >
           Hot Products
         </span>
         {/* ! If Category List is Mapped */}
         {categoryList &&
-          categoryList?.map((category) => (
+          categoryList?.map((cat) => (
             <span
-              key={category}
-              onClick={() => getProductsByCategoryName(category)}
-              className="category__label"
+              key={cat}
+              onClick={() => getProductsByCategoryName(cat)}
+              className={`${
+                cat === category ? "category__label active" : "category__label"
+              }`}
             >
-              {category}
+              {cat}
             </span>
           ))}
         {!categoryList && (
@@ -76,27 +95,33 @@ function ProductList() {
           <span>Loading Category List</span>
         )}
       </div>
-     
-     
+
       <div className="body__wrapper">
-        <h1 className="breadcrumbs">Hot Products</h1>
+        <h1 className="breadcrumbs">{category}</h1>
         <div className="products__wrapper">
-          {/* If Product List is Mapped */}
-          { productList && productList?.map((product) => (
-            <ProductItem
-              key={product.id}
-              id={product.id}
-              image={product.image}
-              description={product.description}
-              category={product.category}
-              title={product.title}
-              price={product.price}
-            />
-          ))}
-          {
-            // if Product List is Unmapped
-            !productList && <span>Products are loading</span> 
-}
+          {loading ? (
+            <div>Please wait...</div>
+          ) : (
+            <>
+              {/* If Product List is Mapped */}
+              {productList &&
+                productList?.map((product) => (
+                  <ProductItem
+                    key={product.id}
+                    id={product.id}
+                    image={product.image}
+                    description={product.description}
+                    category={product.category}
+                    title={product.title}
+                    price={product.price}
+                  />
+                ))}
+              {
+                // if Product List is Unmapped
+                !productList && <span>Products are loading</span>
+              }
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -6,9 +6,9 @@ function Header() {
     <div className="header__container ">
       {/* Brand Header */}
       <div className="brand__container">
-        <span className="brand">
-          <Link to={"/"}>Prathamesh Ashra - The Data Duck </Link>
-        </span>
+        <Link to={"/"}>
+          <span className="brand">Prathamesh Ashra - The Data Duck</span>
+        </Link>
       </div>
 
       {/* Input Search with button */}
@@ -19,9 +19,9 @@ function Header() {
 
       {/* Cart Button */}
       <div className="cart__container">
-     
-
-        <span> <Link to={"/cart"}>Cart </Link> </span>
+        <Link to={"/cart"}>
+          <span>Cart</span>
+        </Link>
       </div>
     </div>
   );
